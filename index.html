@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <link rel="icon" type="image/png" href="d:\วาเลน itส.21\รวมงาน\งาน 10\1.png">
+  <meta charset="UTF-8">
+  <title>ร้านสุดฟิร</title>
+
+
+  <style>
+    body {
+  font-family: sans-serif;
+  margin: 0;
+  background: #ffe4f0; /* ชมพูอ่อนหวานๆ */
+}
+
+  
+/* กำหนดรูปแบบของกล่องค้นหา */
+    .search-container, .category-filter {
+      text-align: center;
+      margin: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+    }
+
+    /* กำหนดสไตล์ปุ่มตัวกรองประเภทอาหาร */
+    .category-filter button {
+      margin: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+     /* จัดการรูปแบบการแสดงเมนูอาหารในรูปแบบ Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px 40px;
+    }
+
+    .menu-item-grid {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      text-align: center;
+      padding: 10px;
+      transition: transform 0.2s;
+    }
+
+      /* กำหนดเอฟเฟกต์เมื่อเลื่อนเมาส์ไปที่เมนูอาหาร */
+    .menu-item-grid:hover {
+      transform: scale(1.02);
+    }
+
+    .menu-item-grid img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .category-filter {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.category-filter button {
+  background: linear-gradient(to right,#ff65c4);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 25px;
+  margin: 5px 8px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(240, 98, 146, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-filter button:hover {
+  background: linear-gradient(to right, #e91e63, #ff7043);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(240, 98, 146, 0.3);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  background: linear-gradient(45deg, #ff8a65, #f06292);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 4px 8px rgba(255, 64, 129, 0.3);
+}
+
+.pagination button:hover {
+  transform: scale(1.1);
+  background: linear-gradient(45deg, #e57373, #f48fb1);
+}
+
+.pagination button.active {
+  background: #ff4081;
+  box-shadow: 0 0 0 3px #fff inset;
+}
+  
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+#searchInput {
+  width: 80%;
+  max-width: 500px;
+  padding: 12px 20px;
+  border: 2px solid #ffb6c1;
+  border-radius: 25px;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff0f5;
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#searchInput:focus {
+  outline: none;
+  border-color: #f06292;
+  box-shadow: 0 0 10px rgba(240, 98, 146, 0.6);
+}
+
+input[type="text"]::placeholder {
+  color: #f06292; /* สีข้อความ placeholder เป็นชมพู */
+  opacity: 1;     /* ให้เห็นชัด */
+}
+
+input[type="text"] {
+  background-color: #fff0f5;     /* พื้นหลังชมพูอ่อน */
+  border: 2px solid #f8bbd0;     /* ขอบชมพูหวาน */
+  border-radius: 20px;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(248, 187, 208, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+input[type="text"]:focus {
+  border-color: #f06292;
+  outline: none;
+  box-shadow: 0 0 10px rgba(240, 98, 146, 0.5);
+}
+
+
+.logo-header {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.logo-header img {
+  height: 190px; /* ขนาดโลโก้ไม่ใหญ่เกินไป */
+  width: auto;
+  border-radius: 20px; /* ถ้าต้องการขอบมน */
+}
+
+.category-filter button {
+  font-size: 16px;
+  padding: 10px 20px;
+  margin: 5px 8px;
+  cursor: pointer;
+  background: linear-gradient(to right, #ff8a65, #f06292);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3);
+  transition: all 0.3s ease;
+}
+
+.category-filter button:hover {
+  background: linear-gradient(to right, #e91e63, #ff7043);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(240, 98, 146, 0.4);
+}
+
+.category-filter i {
+  font-size: 20px;
+}
+
+.category-filter {
+  display: flex;
+  justify-content: center; /* จัดกึ่งกลางแนวนอน */
+  flex-wrap: wrap; /* ถ้ามากไปให้ขึ้นบรรทัดใหม่ */
+  gap: 12px; /* เว้นระยะระหว่างปุ่ม */
+  margin: 30px 0;
+}
+
+.category-filter button {
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background: linear-gradient(to right, #ff8a65, #f06292);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3);
+  transition: all 0.3s ease;
+  white-space: nowrap; /* กันข้อความตัดบรรทัด */
+}
+
+.category-filter button:hover {
+  background: linear-gradient(to right, #e91e63, #ff7043);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(240, 98, 146, 0.4);
+}
+
+.category-filter i {
+  font-size: 20px;
+}
+
+
+
+  </style>
+</head>
+<body>
+
+
+
+<div class="logo-header">
+  <img src="d:\วาเลน itส.21\รวมงาน\งาน 10\1.png" alt="โลโก้ร้านสุดฟิร">
+</div>
+
+  
+
+  <!-- ใส่ลิงก์ FontAwesome CDN ใน <head> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<div class="category-filter">
+  <button onclick="filterByCategory('ทั้งหมด')"><i class="fas fa-utensils"></i> ทั้งหมด</button>
+  <button onclick="filterByCategory('คาว')"><i class="fas fa-drumstick-bite"></i> คาว</button>
+  <button onclick="filterByCategory('เค้ก')"><i class="fas fa-birthday-cake"></i> เค้ก</button>
+  <button onclick="filterByCategory('หวาน')"><i class="fas fa-ice-cream"></i> หวาน</button>
+  <button onclick="filterByCategory('น้ำหวาน')"><i class="fas fa-glass-whiskey"></i> น้ำหวาน</button>
+  <button onclick="filterByCategory('กาแฟ')"><i class="fas fa-mug-hot"></i> กาแฟ</button>
+</div>
+
+
+<!-- Search + Filter -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="ค้นหาชื่อเมนูที่ต้องการ..." onkeyup="filterMenus()">
+  </div>
+
+<title>โปรโมชั่น</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <style>
+    .mySlides {
+      display: none;
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+    }
+    .w3-content {
+      max-width: 1920px;
+      height: 600px;
+    }
+  </style><style>
+  .w3-display-container {
+    margin-bottom: 40px; /* เว้นระยะใต้สไลด์โชว์ */
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .pagination {
+    text-align: center;
+    margin: 20px 0;
+  }
+</style>
+
+</head>
+<body>
+
+<div class="w3-content w3-display-container">
+  <img class="mySlides" src="d:\วาเลน itส.21\รวมงาน\งาน 14\1.png">
+  <img class="mySlides" src="d:\วาเลน itส.21\รวมงาน\งาน 14\2.png">
+  <img class="mySlides" src="d:\วาเลน itส.21\รวมงาน\งาน 14\3.png">
+  <img class="mySlides" src="d:\วาเลน itส.21\รวมงาน\งาน 14\4.png">
+  <img class="mySlides" src="d:\วาเลน itส.21\รวมงาน\งาน 14\5.png">
+
+  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+</div>
+
+<script>
+let slideIndex = 1;
+showDivs(slideIndex);
+function plusDivs(n) { showDivs(slideIndex += n); }
+function showDivs(n) {
+  let i, x = document.getElementsByClassName("mySlides");
+  if (n > x.length) slideIndex = 1;
+  if (n < 1) slideIndex = x.length;
+  for (i = 0; i < x.length; i++) x[i].style.display = "none";
+  x[slideIndex-1].style.display = "block";
+}
+</script>
+
+
+  <!-- Grid เมนูอาหาร -->
+  <div id="menuList" class="menu-grid"></div>
+
+  <!-- Pagination -->
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<!-- JavaScript -->
+<script>
+  let userName = "";
+  const itemsPerPage = 12;
+  let currentPage = 1;
+  let currentCategory = "ทั้งหมด";
+
+  const allMenus = [  
+    { name: "ข้าวไข่ข้น 30-", category: "คาว",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6-mxQcyFbeOaBrieY7z0dcmm1pzSRWS2g_A&s" },
+    { name: "ผัดไทยกุ้งสด 50-", category: "คาว",image: "https://img.kapook.com/u/2015/surauch/cook2/PT1.jpg" },
+    { name: "ข้าวหน้าหมูทอด 40-", category: "คาว",image: "https://api2.krua.co/wp-content/uploads/2020/07/RI1401_Banner.jpg" },
+    { name: "ผัดกะเพราหมูสับ 40-", category: "คาว",image: "https://i.ytimg.com/vi/dviem35B_LI/maxresdefault.jpg" },
+    { name: "ผัดกะเพราทะเล 50-", category: "คาว",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbGEsNzFmm1jjIc9ECs3daOTZc-zB12-1Rog&s" },
+    { name: "ผัดพริกแกงไก่ 30-", category: "คาว",image: "https://s359.kapook.com/pagebuilder/9f28cf9e-82b1-49b7-9a6a-2fa6e4e22c38.jpg" },
+    { name: "สปาเก็ตตี้คาโบนาร่า 30-", category: "คาว",image: "https://img.wongnai.com/p/1600x0/2017/06/05/d1aa846abac14386b30074625612f310.jpg" },
+    { name: "สปาเก็ตตี้พริกแห้งไส้กรอก 30-", category: "คาว",image: "https://s359.kapook.com/pagebuilder/2ed90e79-6792-47f4-b560-7814f0416a79.jpg" },
+    { name: "สปาเก็ตตี้ผัดฉ่าทะเล 30-", category: "คาว", image: "https://img.wongnai.com/p/1920x0/2018/08/04/af5f930f8a0a4c798d903e22bc25d2f8.jpg" },
+    { name: "สปาเก็ตตี้ต้มยำกุ้ง 50-", category: "คาว", image: "https://img.wongnai.com/p/1920x0/2019/05/16/305511e083f04068ab344ba753d242be.jpg" },
+    { name: "สปาเก็ตตี้แกงเขียวหวานไก่ 30-", category: "คาว", image: "https://papatchapornp.wordpress.com/wp-content/uploads/2019/07/green-curry-pasta-fb.png?w=640" },
+    { name: "สปาเก็ตตี้ซอสมะเขือเทศหมูสับ 50-", category: "คาว", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0X5-3Cl-KSP8JoDsAInQW2u2jX1VVLBMpGw&s" },
+
+    { name: "ชีสทาร์ตมะยงชิด 30-", category: "เค้ก", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTStsemuKKCDijZ7CgooB5AW9-WxSbHqR9ZKQ&s" },
+    { name: "เค้กฝอยทองครีมสดมะพร้าวอ่อน 30-", category: "เค้ก", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMakTau3UKyc3o4kA-mApvFrpzn2BFJ7PVMQ&s" },
+    { name: "แพนเค้กช็อกโกแลต 30-", category: "เค้ก", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPTI4g_nO33nvIGCvjT_UHOszdFSWJCMbYuw&s" },
+    { name: "เครปเค้กชาไทย 30-", category: "เค้ก", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEiqOxA8BTW5OsLIqpHI-LKBtIhvqErcnIDw&s" },
+    { name: "เค้กหน้านิ่มชาไทย 25-", category: "เค้ก", image: "https://s359.kapook.com//pagebuilder/be4b81ce-3ed2-4763-a26d-2069def189ce.jpg" },
+    { name: "เค้กไวท์ช็อกโกแลตลาวา 35-", category: "เค้ก", image: "https://s359.kapook.com//pagebuilder/70c3a8dd-baf7-4469-84e0-04c73eb18250.jpg" },
+    { name: "เค้กสตรอว์เบอร์รีคีโต 35-", category: "เค้ก", image: "https://s359.kapook.com//pagebuilder/d9177815-ea0c-4e62-95f4-2975417c4a8b.jpg" },
+    { name: "เค้กสตรอว์เบอร์รีครีมสด 35-", category: "เค้ก", image: "https://s359.kapook.com//pagebuilder/eb0bf8a8-c9bc-4a79-b758-6add64ef5f57.jpg" },
+    { name: "เค้กกล้วยหอม 30-", category: "เค้ก", image: "https://s359.kapook.com//pagebuilder/47e98df6-86c5-4804-b221-8c7dc59f55b9.jpg" },
+    { name: "เค้กกล้วยหอมนึ่ง 25-", category: "เค้ก", image: "https://s359.kapook.com//pagebuilder/6a93d733-57a3-4613-9f49-6be42162df78.jpg" },
+    { name: "เค้กไข่ไต้หวัน 25-", category: "เค้ก", image: "https://s359.kapook.com//pagebuilder/5d8bccdc-3232-4489-9f1b-1435966eec9c.jpg" },
+    { name: "เค้กมะพร้าวอ่อนคีโต 35-", category: "เค้ก", image: "https://s359.kapook.com//pagebuilder/729044ad-c922-4c7a-a2ff-5423026b9c3d.jpg" },
+
+    { name: "คุกกี้ช็อกโกแลต 25-", category: "หวาน", image: "https://static.cdntap.com/tap-assets-prod/wp-content/uploads/sites/25/2022/02/cookie-lead.jpg" },
+    { name: "ขนมปังกรอบคาราเมล 25-", category: "หวาน", image: "https://i.ytimg.com/vi/WK5sP4Wh2uI/maxresdefault.jpg" },
+    { name: "วาฟเฟิลนมสด 25-", category: "หวาน", image: "https://image.bangkokbiznews.com/uploads/images/contents/w1024/2022/08/PMP9pVX7lltpixoSfqme.webp?x-image-process=style/lg-webp" },
+    { name: "ทีรามิสุ 30-", category: "หวาน", image: "https://images.squarespace-cdn.com/content/v1/54e9c782e4b02db31b4324d9/42fd43f1-8896-4d3e-b1db-c8e92a171313/S__4440201.jpg" },
+    { name: "โรตีกรอบ 25-", category: "หวาน", image: "https://yalamarketplace.com/upload/1704815392479.jpg" },
+    { name: "นมสดทอด 25-", category: "หวาน", image: "https://img.wongnai.com/p/1920x0/2020/02/13/690c19c8e1ef40e190bc2df37f9a4121.jpg" },
+    { name: "พุดดิ้งไมโล 25-", category: "หวาน", image: "https://kinnom.co/wp-content/uploads/2023/03/299638582_2328544953968641_2198728561099708894_n.jpg" },
+    { name: "บลูเบอรี่ชีสพาย 30-", category: "หวาน", image: "https://www.calforlife.com/image/food/Blueberry-Cheesecake.jpg" },
+    { name: "เต้าฮวยนมสดมะพร้าวอ่อน 35-", category: "หวาน", image: "https://www.richs.co.th/wp-content/uploads/2024/08/DSC08284-scaled.jpg" },
+    { name: "ขนมโตเกียว 25-", category: "หวาน", image: "https://cdn.mamaexpert.com/files/content/00073/27ce2/conversions/big.jpg" },
+    { name: "เครปเค้กไอศกรีมสตอเบอรี่ 30-", category: "หวาน", image: "https://img.wongnai.com/p/400x0/2016/07/08/867d7d8078f94668a07b77f13a18388e.jpg" },
+    { name: "บัตเตอร์เค้กไอศกรีม 30-", category: "หวาน", image: "https://s3-ap-southeast-1.amazonaws.com/photo.wongnai.com/photos/2017/04/03/bceef7f2cef94b39bd4d789f4d5c6553.jpg" },
+
+    { name: "ชาเขียวโอริโอ้ปั่น 35-", category: "น้ำหวาน", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnR98-RmaI2zOThiyaxKlYJyzWXGDV6WDVaw&s" },
+    { name: "นมหมีปั่นคาราเมล 35-", category: "น้ำหวาน", image: "https://i.ytimg.com/vi/6DWNhv5vPx8/maxresdefault.jpg" },
+    { name: "ชาไทยปั่น  30-", category: "น้ำหวาน", image: "https://www.fnthaidairies.com/public/uploads/recipe_management/images/abx2XSWTmsdog5ztWmhjh1MTGIbON32o4YcaoRvUGh9SkGJFaH1611740897.jpg" },
+    { name: "นมชมพูปั่น 30-", category: "น้ำหวาน", image: "https://bluemochathailand.com/content/images/2025/04/Pink-Milk-Shake.jpg" },
+    { name: "โกโก้ 25-", category: "น้ำหวาน", image: "https://s359.kapook.com/r/600/auto/pagebuilder/79c32820-a567-4cf0-a494-e297afdeabf5.jpg" },
+    { name: "น้ำผึ้ง มะนาวโซดา 25-", category: "น้ำหวาน", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyHyibZ1eoqU8rWCwq7oBG3MgYrjVIGHcIZA&s" },
+    { name: "ช็อกมิ้นต์ 30-", category: "น้ำหวาน", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToIZ-gh5CfU-v_GcSOP6fP8c5ZrTGmV73p_Q&s" },
+    { name: "โอเลี้ยง 25-", category: "น้ำหวาน", image: "https://dn.lnwfile.com/_/dn/_raw/p1/3m/5r.jpg" },
+    { name: "โอวัลตินภูเขาไฟ 30-", category: "น้ำหวาน", image: "https://s359.kapook.com//pagebuilder/0d0e9152-eb99-4fac-a991-5298dc1165df.jpg" },
+    { name: "นมข้าวโพด 30-", category: "น้ำหวาน", image: "https://www.thaicity.co.th/uploads/kitchen/20181001/bdhjqruvy129.jpg" },
+    { name: "มะพร้าวนมสดปั่น 30-", category: "น้ำหวาน", image: "https://bluemochathailand.com/content/images/2025/04/Fresh-coconut-milk-smoothie.jpg" },
+    { name: "ชาเย็น 25-", category: "น้ำหวาน", image: "https://aromathailand.com/wp-content/uploads/2024/02/shutterstock_1139687273.jpeg" },
+  
+     { name: "กาแฟคาปูชิโน่ร้อน 40-", category: "กาแฟ", image: "https://chaodoi.co.th/wp-content/uploads/2023/11/resize_1-01.jpeg" },
+    { name: "กาแฟลาเต้ร้อน 40-", category: "กาแฟ", image: "https://www.nescafe.com/th/sites/default/files/2023-04/1066_970%202_12.jpg" },
+    { name: "กาแฟเมลโล่มอคค่าเย็น 40-", category: "กาแฟ", image: "https://img.kapook.com/u/2016/surauch/cook1/coffee1_1.jpg" },
+    { name: "กาแฟเอสเพรสโซ่ 40-", category: "กาแฟ", image: "https://aromathailand.com/wp-content/uploads/2024/02/ccc.jpg" },
+    { name: "กาแฟมัคคิอาโต้ 40-", category: "กาแฟ", image: "https://aromathailand.com/wp-content/uploads/2024/02/dddd.jpg" },
+    { name: "กาแฟแฟลตไวท์เย็น 40-", category: "กาแฟ", image: "https://www.pangkhon.coffee/wp-content/uploads/2022/12/%E0%B8%AA%E0%B8%B9%E0%B8%95%E0%B8%A3%E0%B8%81%E0%B8%B2%E0%B9%81%E0%B8%9F%E0%B9%81%E0%B8%9F%E0%B8%A5%E0%B8%95%E0%B9%84%E0%B8%A7%E0%B8%97%E0%B9%8C%E0%B9%80%E0%B8%A2%E0%B9%87%E0%B8%99-768x512.png" },
+    { name: "กาแฟไอริชคอฟฟี่ 40-", category: "กาแฟ", image: "https://benothailand.com/cdn/shop/articles/irish_coffee.jpg?crop=center&height=560&v=1716542946&width=840" },
+    { name: "กาแฟนมสด 40-", category: "กาแฟ", image: "https://cms.dmpcdn.com/food/2020/11/04/5ba2d840-1e83-11eb-9443-5fafc9ce7cfe_original.jpg" },
+    { name: "กาแฟสตรอเบอร์รี่มัทฉะลาเต้ 40-", category: "กาแฟ", image: "https://cms.dmpcdn.com/food/2024/11/12/92f6c6b0-a0d1-11ef-8f87-93f6f3fff0b5_webp_original.webp" },
+    { name: "กาแฟอัฟโฟกาโต 40-", category: "กาแฟ", image: "https://img.kapook.com/u/2016/surauch/cOOK/coffee2.jpg" },
+    { name: "กาแฟนมฟองละมุน 40-", category: "กาแฟ", image: "https://img.kapook.com/u/2016/surauch/cOOK/coffee7.jpg" },
+    { name: "กาแฟเย็นกลิ่นซินนามอน 40-", category: "กาแฟ", image: "https://img.kapook.com/u/2021/wanwanat/2027262755.jpg" },
+]; // ใช้เมนูทั้งหมดจากโค้ดเดิมของคุณ
+
+  let filteredMenus = [...allMenus];
+
+
+  
+  function enterSite() {
+    const input = document.getElementById("usernameInput");
+    userName = input.value.trim();
+    if (!userName) {
+      alert("กรุณาใส่ชื่อก่อนเข้าสู่ระบบ");
+      return;
+    }
+
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("menuPage").style.display = "block";
+    document.getElementById("welcomeHeader").innerText = `ยินดีต้อนรับคุณ ${userName} - ร้านสุดฟิร`;
+    filterMenus();
+  }
+
+
+  
+  function displayMenus() {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const menusToShow = filteredMenus.slice(start, end);
+
+    const menuList = document.getElementById('menuList');
+    menuList.innerHTML = menusToShow.map(menu => `
+      <div class="menu-item-grid">
+        <img src="${menu.image}" alt="${menu.name}">
+        <h4>${menu.name}</h4>
+      </div>
+    `).join('');
+    displayPagination();
+  }
+
+  
+  function displayPagination() {
+    const totalPages = Math.ceil(filteredMenus.length / itemsPerPage);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      if (i === currentPage) btn.style.fontWeight = 'bold';
+      btn.onclick = () => {
+        currentPage = i;
+        displayMenus();
+      };
+      pagination.appendChild(btn);
+    }
+  }
+
+  
+  function filterMenus() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    filteredMenus = allMenus.filter(menu => {
+      const matchName = menu.name.toLowerCase().includes(query);
+      const matchCategory = currentCategory === "ทั้งหมด" || menu.category === currentCategory;
+      return matchName && matchCategory;
+    });
+    currentPage = 1;
+    displayMenus();
+  }
+
+  function filterByCategory(category) {
+    currentCategory = category;
+    filterMenus();
+  }
+</script>
+
+
+<!-- Footer Section -->
+<footer style="background-color: #fdc9dd; color: #4e4e4e; padding: 40px 20px; font-family: sans-serif;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: auto;">
+
+
+    <!-- เกี่ยวกับเรา -->
+    <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+      <img src="d:\วาเลน itส.21\รวมงาน\งาน 10\1.png" alt="ร้านสุดฟิร" style="width: 50px; margin-bottom: 10px;">
+      <h3>เกี่ยวกับเรา</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li>รู้จักร้านสุดฟิร</li>
+        <li>ร่วมงานกับเรา</li>
+        <li>ข่าวและกิจกรรม</li>
+        <li>ข้อกำหนดและเงื่อนไขสมาชิก ALL member</li>
+      </ul>
+    </div>
+
+    <!-- ช่วยเหลือ -->
+    <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+      <h3>ช่วยเหลือ</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li>คำถามที่พบบ่อย</li>
+        <li>บริการสมาชิก 097-109-3112</li>
+        <li>ติดต่อเรา 111-210-0902</li>
+      </ul>
+    </div>
+
+    <!-- ติดตามเรา -->
+    <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+      <h3>ติดตามเรา</h3>
+      <p>รับโปรโมชั่นและดีลพิเศษก่อนใคร</p>
+      <form>
+        <input type="email" placeholder="ใส่อีเมลของคุณ" style="padding: 8px; border: none; border-radius: 5px;">
+        <button style="padding: 8px 12px; border: none; background: white; color: #f78ac9; border-radius: 5px;">เข้าร่วม</button>
+      </form>
+    </div>
+
+   <div style="text-align: center; margin: 20px 0;">
+  <p>สแกน QR ร้าน</p>
+  <img src="d:\วาเลน itส.21\ภาพ\21.png" alt="QR Code" style="width: 150px;">
+</div>
+
+  </div>
+</footer>
+
+</body>
+</html>

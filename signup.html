@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+     <link rel="icon" type="image/png" href="d:\วาเลน itส.21\รวมงาน\งาน 10\1.png">
+  <meta charset="UTF-8">
+  <title>สมัครสมาชิก - ร้านสุดฟิร</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #f9c5d1, #ffb347);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .signup-box {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 400px;
+    }
+    h1 {
+      color: #ff4081;
+      text-align: center;
+    }
+    input[type=text], input[type=password] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #ff4081;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background-color: #e03370;
+    }
+    .link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .link a {
+      color: #ff4081;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="signup-box">
+  <h1>สมัครสมาชิก</h1>
+  <form action="index.html" method="post">
+    <label for="email">อีเมล</label>
+    <input type="text" id="email" name="email" placeholder="กรอกอีเมล" required>
+
+    <label for="psw">รหัสผ่าน</label>
+    <input type="password" id="psw" name="psw" placeholder="กรอกรหัสผ่าน" required>
+
+    <label for="psw-repeat">ยืนยันรหัสผ่าน</label>
+    <input type="password" id="psw-repeat" name="psw-repeat" placeholder="ยืนยันรหัสผ่าน" required>
+
+    <button type="submit">สมัครสมาชิก</button>
+
+    <div class="link">
+      มีบัญชีอยู่แล้ว? <a href="login.html">เข้าสู่ระบบ</a>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
